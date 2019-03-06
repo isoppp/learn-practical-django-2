@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "main.apps.MainConfig",
 ]
 
 MIDDLEWARE = [
@@ -105,3 +106,14 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = "/static/"
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "formatters": {"simple": {"format": "%(levelname)s %(message)s"}},
+    "handlers": {"console": {"level": "DEBUG", "class": "logging.StreamHandler", "formatter": "simple"}},
+    "loggers": {
+        "main": {"handlers": ["console"], "level": "DEBUG", "propagate": True},
+        "booktime": {"handlers": ["console"], "level": "DEBUG", "propagate": True},
+    },
+}
