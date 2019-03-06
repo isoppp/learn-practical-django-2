@@ -117,3 +117,6 @@ LOGGING = {
         "booktime": {"handlers": ["console"], "level": "DEBUG", "propagate": True},
     },
 }
+
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+MEDIA_URL = "/media/"
