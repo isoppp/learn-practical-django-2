@@ -12,6 +12,7 @@ pre-commit = "*"
 django = "*"
 psycopg2-binary = "*"
 psycopg2 = "*"
+pillow = "*"
 
 [requires]
 python_version = "3.7"
