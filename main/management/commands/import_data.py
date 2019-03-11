@@ -44,6 +44,6 @@ class Command(BaseCommand):
             if created:
                 c["products_created"] += 1
 
-        self.stdout.write("Products processed=%d (created=%d" % (c["products"], c["products_created"]))
+        self.stdout.write("Products processed=%d (created=%d)" % (c["products"], c["products_created"]))
         self.stdout.write("Tags processed=%d (created=%d)" % (c["tags"], c["tags_created"]))
-        self.stdout.write("images processed=%d" % c["images"])
+        self.stdout.write("Images processed=%d" % c["images"])
