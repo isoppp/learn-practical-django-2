@@ -24,7 +24,7 @@ class ContactForm(forms.Form):
 
 
 class UserCreationForm(DjangoUserCreationForm):
-    class Meta(DjangoUserCreationForm):
+    class Meta(DjangoUserCreationForm.Meta):
         model = models.User
         fields = ("email",)
         field_classes = {"email": UsernameField}

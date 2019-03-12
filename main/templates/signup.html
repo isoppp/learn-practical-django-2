@@ -38,7 +38,7 @@
       {{ form.password2.label_tag }}
       <input
         type="password"
-        class="form-control{% if form.password2.errors %}is-invalid{% endif %}"
+        class="form-control {% if form.password2.errors %}is-invalid{% endif %}"
         id="id_password2"
         name="password2"
         value="{{ form.password2.value|default:"" }}">
