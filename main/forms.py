@@ -1,5 +1,9 @@
 from django import forms
 from django.core.mail import send_mail
+from django.contrib.auth.forms import UserCreationForm as DjangoUserCreationForm
+from django.contrib.auth.forms import UsernameField
+
+from . import models
 
 import logging
 
@@ -16,4 +20,19 @@ class ContactForm(forms.Form):
         message = "Form: {0}\n{1}".format(self.cleaned_data["name"], self.cleaned_data["message"])
         send_mail(
             "Site message", message, "site@booktime.domain", ["customerservice@booktime.domain"], fail_silently=False
+        )
+
+
+class UserCreationForm(DjangoUserCreationForm):
+    class Meta(DjangoUserCreationForm):
+        model = models.User
+        fields = ("email",)
+        field_classes = {"email": UsernameField}
+
+    def send_mail(self):
+        logger.info("Sending signup email for email=%s", self.cleaned_data["email"])
+        message = f'Welcome{self.cleaned_data["email"]}'
+
+        send_mail(
+            "Welcome to BookTime", message, "site@booktime.domain", [self.cleaned_data["email"]], fail_silently=True
         )

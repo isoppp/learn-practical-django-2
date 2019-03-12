@@ -6,6 +6,7 @@ from main import models
 from main import views
 
 urlpatterns = [
+    path("signup/", views.SignupView.as_view(), name="signup"),
     path("", TemplateView.as_view(template_name="home.html"), name="home"),
     path("about-us/", TemplateView.as_view(template_name="about_us.html"), name="about_us"),
     path("contact-us/", views.ContactUsView.as_view(), name="contact_us"),
