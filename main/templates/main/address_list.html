@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+  <h1>List of your addresses:</h1>
+  {% for address in object_list %}
+    <p>
+      {{ address.name }}<br>
+      {{ address.address1 }}<br>
+      {{ address.address2 }}<br>
+      {{ address.city }}<br>
+      {{ address.get_country_display }}<br>
+    </p>
+    <p>
+      <a href="{% url "address_update" address.id %}">Update address</a>
+    </p>
+    <p>
+      <a href="{% url "address_delete" address.id %}">Delete address</a>
+    </p>
+    {% if not forloop.last %}
+      <hr>
+    {% endif %}
+  {% endfor %}
+  <p>
+    <a href="{% url "address_create" %}">Add new address</a>
+  </p>
+{% endblock content %}
+This very basic layout is enough for us to visualize all users’ addresses.
+
+Next one is creation. For the CreateView, the template goes in  main/templates/main/address_form.html:
+{% extends "base.html" %}
+{% block content %}
+  <h2>Add a new address</h2>
+  <form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+{% endblock content %}
