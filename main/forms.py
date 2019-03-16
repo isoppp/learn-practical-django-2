@@ -2,6 +2,7 @@ from django import forms
 from django.core.mail import send_mail
 from django.contrib.auth.forms import UserCreationForm as DjangoUserCreationForm
 from django.contrib.auth.forms import UsernameField
+from django.forms import inlineformset_factory
 
 from . import models
 
@@ -36,3 +37,6 @@ class UserCreationForm(DjangoUserCreationForm):
         send_mail(
             "Welcome to BookTime", message, "site@booktime.domain", [self.cleaned_data["email"]], fail_silently=True
         )
+
+
+BasketLineFormSet = inlineformset_factory(models.Basket, models.BasketLine, fields=("quantity",), extra=0)
