@@ -20,6 +20,7 @@ class Migration(migrations.Migration):
                 ("billing_address2", models.CharField(blank=True, max_length=60)),
                 ("billing_zip_code", models.CharField(max_length=12)),
                 ("billing_city", models.CharField(max_length=60)),
+                ("billing_country", models.CharField(max_length=3)),
                 ("shipping_name", models.CharField(max_length=60)),
                 ("shipping_address1", models.CharField(max_length=60)),
                 ("shipping_address2", models.CharField(blank=True, max_length=60)),

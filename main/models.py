@@ -143,6 +143,7 @@ class Order(models.Model):
     billing_address2 = models.CharField(max_length=60, blank=True)
     billing_zip_code = models.CharField(max_length=12)
     billing_city = models.CharField(max_length=60)
+    billing_country = models.CharField(max_length=3)
 
     shipping_name = models.CharField(max_length=60)
     shipping_address1 = models.CharField(max_length=60)
