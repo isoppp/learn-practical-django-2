@@ -116,3 +116,6 @@ dmypy.json
 .pyre/
 
 /media/
+
+# Node
+node_modules/

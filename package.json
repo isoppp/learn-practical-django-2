@@ -16,5 +16,14 @@
   "bugs": {
     "url": "https://github.com/isoppp/learn-practical-django-2/issues"
   },
-  "homepage": "https://github.com/isoppp/learn-practical-django-2#readme"
+  "homepage": "https://github.com/isoppp/learn-practical-django-2#readme",
+  "devDependencies": {
+    "webpack": "^4.29.6",
+    "webpack-bundle-tracker": "^0.4.2-beta",
+    "webpack-cli": "^3.3.0"
+  },
+  "dependencies": {
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6"
+  }
 }
