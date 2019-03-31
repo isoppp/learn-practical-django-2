@@ -18,6 +18,9 @@
   },
   "homepage": "https://github.com/isoppp/learn-practical-django-2#readme",
   "devDependencies": {
+    "enzyme": "^3.9.0",
+    "enzyme-adapter-react-16": "^1.11.2",
+    "jest": "^24.5.0",
     "webpack": "^4.29.6",
     "webpack-bundle-tracker": "^0.4.2-beta",
     "webpack-cli": "^3.3.0"
