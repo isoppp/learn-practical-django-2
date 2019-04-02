@@ -15,6 +15,10 @@ psycopg2 = "*"
 pillow = "*"
 selenium = "*"
 django-webpack-loader = "*"
+django-extensions = "*"
+pydotplus = "*"
+ipython = "*"
+werkzeug = "*"
 
 [requires]
 python_version = "3.7"
