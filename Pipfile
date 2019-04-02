@@ -24,7 +24,7 @@ werkzeug = "*"
 python_version = "3.7"
 
 [scripts]
-dev = "./manage.py runserver"
+dev = "./manage.py runserver_plus"
 test = "./manage.py test"
 makemigrations = "./manage.py makemigrations"
 migrate = "./manage.py migrate"
