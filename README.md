@@ -1,0 +1,1 @@
+- need geckodriver and firefox for e2e, exec `brew install geckodriver` and install firefox.
