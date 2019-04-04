@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "webpack_loader",
     "django_extensions",
+    "debug_toolbar",
     "main.apps.MainConfig",
 ]
 
@@ -51,6 +52,7 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "main.middlewares.basket_middleware",
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
 
 ROOT_URLCONF = "booktime.urls"
@@ -148,3 +150,5 @@ AUTH_USER_MODEL = "main.User"
 WEBPACK_LOADER = {
     "DEFAULT": {"BUNDLE_DIR_NAME": "bundles/", "STATS_FILE": os.path.join(BASE_DIR, "webpack-stats.json")}
 }
+
+INTERNAL_IPS = ["127.0.0.1"]
