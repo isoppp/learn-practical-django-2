@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     "webpack_loader",
     "django_extensions",
     "debug_toolbar",
+    "django_tables2",
     "main.apps.MainConfig",
 ]
 
@@ -143,8 +144,6 @@ if not DEBUG:
 else:
     EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
-# Custom User model
-
 AUTH_USER_MODEL = "main.User"
 
 WEBPACK_LOADER = {
@@ -152,3 +151,5 @@ WEBPACK_LOADER = {
 }
 
 INTERNAL_IPS = ["127.0.0.1"]
+
+DJANGO_TABLES2_TEMPLATE = "django_tables2/bootstrap.html"
