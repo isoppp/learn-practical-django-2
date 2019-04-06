@@ -1,10 +1,16 @@
-from django.urls import path
+from django.urls import path, include
 from django.views.generic import TemplateView
 from django.views.generic.detail import DetailView
 from django.contrib.auth import views as auth_views
 
-from main import models, forms
+from rest_framework import routers
+
+from main import models, forms, endpoints
 from main import views
+
+router = routers.DefaultRouter()
+router.register(r"orderlines", endpoints.PaidOrderLineViewSet)
+router.register(r"orders", endpoints.PaidOrderViewSet)
 
 urlpatterns = [
     path("address/", views.AddressListView.as_view(), name="address_list"),
@@ -27,4 +33,5 @@ urlpatterns = [
     path("order/done/", TemplateView.as_view(template_name="order_done.html"), name="checkout_done"),
     path("order/address_select", views.AddressSelectionView.as_view(), name="address_select"),
     path("order-dashboard/", views.OrderView.as_view(), name="order_dashboard"),
+    path("api/", include(router.urls)),
 ]
