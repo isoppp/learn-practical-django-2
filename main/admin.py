@@ -1,5 +1,8 @@
 from datetime import datetime, timedelta
+
 import logging
+
+from django import forms
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as DjangoUserAdmin
 from django.utils.html import format_html
@@ -237,12 +240,20 @@ class ColoredAdminSite(admin.sites.AdminSite):
         return context
 
 
+class PeriodSelectForm(forms.Form):
+    PERIODS = ((30, "30 days"), (60, "60 days"), (90, "90 days"))
+    period = forms.TypedChoiceField(choices=PERIODS, coerce=int, required=True)
+
+
 # The following will add reporting views to the list of
 # available urls and will list them from the index page
 class ReportingColoredAdminSite(ColoredAdminSite):
     def get_urls(self):
         urls = super().get_urls()
-        my_urls = [path("orders_per_day/", self.admin_view(self.orders_per_day))]
+        my_urls = [
+            path("orders_per_day/", self.admin_view(self.orders_per_day)),
+            path("most_bought_products/", self.admin_view(self.most_bought_products), name="most_bought_products"),
+        ]
         return my_urls + urls
 
     def orders_per_day(self, request):
@@ -259,13 +270,41 @@ class ReportingColoredAdminSite(ColoredAdminSite):
 
         return TemplateResponse(request, "orders_per_day.html", context)
 
+    def most_bought_products(self, request):
+        if request.method == "POST":
+            form = PeriodSelectForm(request.POST)
+            if form.is_valid():
+                days = form.cleaned_data["period"]
+                starting_day = datetime.now() - timedelta(days=days)
 
-def index(self, request, extra_context=None):
-    reporting_pages = [{"name": "Orders per day", "link": "orders_per_day/"}]
-    if not extra_context:
-        extra_context = {}
-    extra_context = {"reporting_pages": reporting_pages}
-    return super().index(request, extra_context)
+            data = (
+                models.OrderLine.objects.filter(order__date_added__gt=starting_day)
+                .values("product__name")
+                .annotate(c=Count("id"))
+            )
+            logger.info("most_bought_products query: %s", data.query)
+            labels = [x["product__name"] for x in data]
+            values = [x["c"] for x in data]
+
+        else:
+            form = PeriodSelectForm()
+            labels = None
+            values = None
+
+        context = dict(
+            self.each_context(request), title="Most bought products", form=form, labels=labels, values=values
+        )
+        return TemplateResponse(request, "most_bought_products.html", context)
+
+    def index(self, request, extra_context=None):
+        reporting_pages = [
+            {"name": "Orders per day", "link": "orders_per_day/"},
+            {"name": "Most bought products", "link": "most_bought_products/"},
+        ]
+        if not extra_context:
+            extra_context = {}
+        extra_context = {"reporting_pages": reporting_pages}
+        return super().index(request, extra_context)
 
 
 # Finally we define 3 instances of AdminSite, each with their own
