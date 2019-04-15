@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta
-
+from weasyprint import HTML
+import tempfile
 import logging
 
 from django import forms
@@ -10,6 +11,11 @@ from django.db.models.functions import TruncDay
 from django.db.models import Avg, Count, Min, Sum
 from django.urls import path
 from django.template.response import TemplateResponse
+from django.shortcuts import get_object_or_404, render
+from django.http import HttpResponse
+from django.template.loader import render_to_string
+
+
 from . import models
 
 logger = logging.getLogger(__name__)
@@ -322,9 +328,40 @@ class ReportingColoredAdminSite(ColoredAdminSite):
         return super().index(request, extra_context)
 
 
+class InvoiceMixin:
+    def get_urls(self):
+        urls = super().get_urls()
+        my_urls = [path("invoice/<int:order_id>/", self.admin_view(self.invoice_for_order), name="invoice")]
+
+        return my_urls + urls
+
+    def invoice_for_order(self, request, order_id):
+        order = get_object_or_404(models.Order, pk=order_id)
+
+        if request.GET.get("format") == "pdf":
+            html_string = render_to_string("invoice.html", {"order": order})
+            html = HTML(string=html_string, base_url=request.build_absolute_uri())
+            result = html.write_pdf()
+
+            response = HttpResponse(content_type="application/pdf")
+            response["Content-Disposition"] = "inline; filename=invoice.pdf"
+            response["Content-Transfer-Encoding"] = "binary"
+
+            with tempfile.NamedTemporaryFile(delete=True) as output:
+                output.write(result)
+                output.flush()
+                output = open(output.name, "rb")
+                binary_pdf = output.read()
+                response.write(binary_pdf)
+
+            return response
+
+        return render(request, "invoice.html", {"order": order})
+
+
 # Finally we define 3 instances of AdminSite, each with their own
 # set of required permissions and colors
-class OwnersAdminSite(ReportingColoredAdminSite):
+class OwnersAdminSite(InvoiceMixin, ReportingColoredAdminSite):
     site_header = "BookTime owners administration"
     site_header_color = "black"
     module_caption_color = "grey"
@@ -333,7 +370,7 @@ class OwnersAdminSite(ReportingColoredAdminSite):
         return request.user.is_active and request.user.is_superuser
 
 
-class CentralOfficeAdminSite(ReportingColoredAdminSite):
+class CentralOfficeAdminSite(InvoiceMixin, ReportingColoredAdminSite):
     site_header = "BookTime central office administration"
     site_header_color = "purple"
     module_caption_color = "pink"
