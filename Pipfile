@@ -26,13 +26,14 @@ django-filter = "*"
 django-widget-tweaks = "*"
 djangorestframework = "*"
 weasyprint = "*"
+pytest-django = "*"
 
 [requires]
 python_version = "3.7"
 
 [scripts]
 dev = "./manage.py runserver_plus"
-test = "./manage.py test"
+test = "pytest"
 makemigrations = "./manage.py makemigrations"
 migrate = "./manage.py migrate"
 erd = "./manage.py graph_models -a -o booktime_models.png"
