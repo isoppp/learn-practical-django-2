@@ -40,12 +40,12 @@
           <th>Product name</th>
           <th>Price</th>
         </tr>
-        {% for line in order.lines.all %}
-          <tr>
-            <td>{{ line.product.name }}</td>
-            <td>{{ line.product.price }}</td>
-          </tr>
-        {% endfor %}
+{% for line in order.lines.all %}
+        <tr>
+          <td>{{ line.product.name }}</td>
+          <td>{{ line.product.price }}</td>
+        </tr>
+{% endfor %}
       </table>
     </div>
   </div>
