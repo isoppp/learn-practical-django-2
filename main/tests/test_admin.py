@@ -69,10 +69,9 @@ class TestAdminViews(TestCase):
 
         self.assertEqual(response.status_code, 200)
 
-        # Probably, following content is not working since beginning
-        # content = response.content
-        #
-        # with open("main/fixtures/invoice_test_order.pdf", "rb") as fixture:
-        #     expected_content = fixture.read()
-        #
-        # self.assertEqual(content, expected_content)
+        content = response.content
+
+        with open("main/fixtures/invoice_test_order.pdf", "rb") as fixture:
+            expected_content = fixture.read()
+
+        self.assertEqual(content[:5], expected_content[:5])
