@@ -30,11 +30,11 @@ class TestModel(TestCase):
 
         order.refresh_from_db()
 
-        self.assertEquals(order.user, user1)
-        self.assertEquals(order.billing_address1, billing.address1)
-        self.assertEquals(order.shipping_address1, shipping.address1)
+        self.assertEqual(order.user, user1)
+        self.assertEqual(order.billing_address1, billing.address1)
+        self.assertEqual(order.shipping_address1, shipping.address1)
 
-        self.assertEquals(order.lines.all().count(), 2)
+        self.assertEqual(order.lines.all().count(), 2)
         lines = order.lines.all()
-        self.assertEquals(lines[0].product, p1)
-        self.assertEquals(lines[1].product, p2)
+        self.assertEqual(lines[0].product, p1)
+        self.assertEqual(lines[1].product, p2)
