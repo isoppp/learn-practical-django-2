@@ -212,6 +212,7 @@ class Order(models.Model):
 
     date_updated = models.DateTimeField(auto_now=True)
     date_added = models.DateTimeField(auto_now_add=True)
+    last_spoken_to = models.ForeignKey(User, null=True, related_name="cs_chats", on_delete=models.SET_NULL)
 
 
 class OrderLine(models.Model):
