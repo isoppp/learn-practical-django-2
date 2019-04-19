@@ -29,6 +29,7 @@ weasyprint = "*"
 pytest-django = "*"
 channels = "*"
 channels_redis = "*"
+aioredis = "*"
 
 [requires]
 python_version = "3.7"
