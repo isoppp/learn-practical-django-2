@@ -36,7 +36,8 @@ aioredis = "*"
 python_version = "3.7"
 
 [scripts]
-dev = "./manage.py runserver_plus"
+dev = "./manage.py runserver"
+devp = "./manage.py runserver_plus"
 test = "pytest"
 makemigrations = "./manage.py makemigrations"
 migrate = "./manage.py migrate"
