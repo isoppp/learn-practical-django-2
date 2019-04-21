@@ -14,6 +14,7 @@ from django.template.response import TemplateResponse
 from django.shortcuts import get_object_or_404, render
 from django.http import HttpResponse
 from django.template.loader import render_to_string
+from django.utils import timezone
 
 
 from . import models
@@ -278,7 +279,7 @@ class ReportingColoredAdminSite(ColoredAdminSite):
         return my_urls + urls
 
     def orders_per_day(self, request):
-        starting_day = datetime.now() - timedelta(days=180)
+        starting_day = timezone.make_aware(datetime.now() - timedelta(days=180))
         order_data = (
             models.Order.objects.filter(date_added__gt=starting_day)
             .annotate(day=TruncDay("date_added"))
@@ -296,7 +297,7 @@ class ReportingColoredAdminSite(ColoredAdminSite):
             form = PeriodSelectForm(request.POST)
             if form.is_valid():
                 days = form.cleaned_data["period"]
-                starting_day = datetime.now() - timedelta(days=days)
+                starting_day = timezone.make_aware(datetime.now() - timedelta(days=days))
 
             data = (
                 models.OrderLine.objects.filter(order__date_added__gt=starting_day)

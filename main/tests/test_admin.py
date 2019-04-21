@@ -4,6 +4,7 @@ from unittest.mock import patch
 
 from django.test import TestCase
 from django.urls import reverse
+from django.utils import timezone
 
 from main import factories
 from main import models
@@ -16,6 +17,7 @@ class TestAdminViews(TestCase):
             factories.ProductFactory(name="B", active=True),
             factories.ProductFactory(name="C", active=True),
         ]
+
         orders = factories.OrderFactory.create_batch(3)
         factories.OrderLineFactory.create_batch(2, order=orders[0], product=products[0])
         factories.OrderLineFactory.create_batch(2, order=orders[0], product=products[1])
@@ -39,7 +41,7 @@ class TestAdminViews(TestCase):
         ]
 
         with patch("django.utils.timezone.now") as mock_now:
-            mock_now.return_value = datetime(2018, 7, 25, 12, 00, 00)
+            mock_now.return_value = timezone.make_aware(datetime(2018, 7, 25, 12, 00, 00))
             order = factories.OrderFactory(
                 id=12,
                 billing_name="John Smith",
