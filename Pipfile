@@ -29,7 +29,7 @@ weasyprint = "*"
 pytest-django = "*"
 daphne = "==2.2.2"
 channels = "==2.1.3"
-channels_redis = "==2.3.0"
+channels_redis = "<2.4.0"
 aioredis = "*"
 
 [requires]
