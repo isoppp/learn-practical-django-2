@@ -4,6 +4,7 @@ from django.views.generic.detail import DetailView
 from django.contrib.auth import views as auth_views
 
 from rest_framework import routers
+from rest_framework.authtoken import views as authtoken_views
 
 from main import models, forms, endpoints
 from main import views
@@ -36,4 +37,5 @@ urlpatterns = [
     path("api/", include(router.urls)),
     path("customer-service/<int:order_id>/", views.room, name="cs_chat"),
     path("customer-service/", TemplateView.as_view(template_name="customer_service.html"), name="cs_main"),
+    path("mobile-api/auth/", authtoken_views.obtain_auth_token, name="mobile_token"),
 ]

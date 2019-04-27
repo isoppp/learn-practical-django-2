@@ -4,16 +4,25 @@ import logging
 
 from PIL import Image
 
+from django.conf import settings
 from django.core.files.base import ContentFile
 from django.db.models.signals import pre_save, post_save
 from django.dispatch import receiver
 from django.contrib.auth.signals import user_logged_in
+
+from rest_framework.authtoken.models import Token
 
 from .models import ProductImage, Basket, OrderLine, Order
 
 THUMBNAIL_SIZE = (300, 300)
 
 logger = logging.getLogger(__name__)
+
+
+@receiver(post_save, sender=settings.AUTH_USER_MODEL)
+def create_auth_token(sender, instance=None, created=False, **kwargs):
+    if created:
+        Token.objects.create(user=instance)
 
 
 @receiver(pre_save, sender=ProductImage)
