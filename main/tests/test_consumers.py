@@ -104,7 +104,7 @@ class TestConsumers(TestCase):
             self.assertTrue(response["body"].startswith(b"data: "))
             payload = response["body"][6:]
             data = json.loads(payload.decode("utf8"))
-            self.assertEquals(
+            self.assertEqual(
                 data,
                 [{"link": "/customer-service/%d/" % order.id, "text": "%d (user@site.com)" % order.id}],
                 "expecting someone in the room but no one found",
@@ -120,7 +120,7 @@ class TestConsumers(TestCase):
             self.assertTrue(response["body"].startswith(b"data: "))
             payload = response["body"][6:]
             data = json.loads(payload.decode("utf8"))
-            self.assertEquals(data, [], "expecting no one in the room but someone found")
+            self.assertEqual(data, [], "expecting no one in the room but someone found")
 
         loop = asyncio.get_event_loop()
         loop.run_until_complete(test_body())
