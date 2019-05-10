@@ -1,9 +1,9 @@
 export default class BackendApi {
   constructor (envName) {
     if (envName == 'production') {
-      this.hostName = 'CHANGETHIS'
+      this.hostName = ''
     } else {
-      this.hostName = 'CHANGETHIS'
+      this.hostName = 'localhost:8000'
     }
     this.baseHttpApi = 'http://' + this.hostName + '/mobile-api'
   }
@@ -68,9 +68,10 @@ export default class BackendApi {
       `ws://` +
       this.hostName +
       `/ws/customer-service/` +
-      Id +
+      id +
       `/?token=` +
       this.loggedInToken
+
     this.ws = new WebSocket(ws_url)
     this.ws.onmessage = function (event) {
       var data = JSON.parse(event.data)

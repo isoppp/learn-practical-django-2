@@ -68,7 +68,7 @@ function OrderTouchArea (props) {
     <View
       style={[
         styles.orderRowIn,
-        props.order.id == props.orderCurrentId ? styles.orderSelected : null
+        props.order.id === props.orderCurrentId ? styles.orderSelected : null
       ]}
     >
       <View style={styles.orderImage}>
@@ -128,7 +128,7 @@ export default class OrderView extends React.Component {
               key={m.id}
               order={m}
               orderCurrentId={this.state.orderCurrentId}
-              setOrderId={ordered => this.setState({ orderCurrentId: orderId })}
+              setOrderId={orderId => this.setState({ orderCurrentId: orderId })}
             />
           ))}
         </View>
