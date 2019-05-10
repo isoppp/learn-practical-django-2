@@ -22,7 +22,7 @@ class OrderTrackerConsumer(AsyncHttpConsumer):
 
     async def query_remote_server(self, order_id):
         async with aiohttp.ClientSession() as session:
-            async with session.get("http://pastebin.com/put_url_here") as resp:
+            async with session.get("http://pastebin.com/raw/Hpezbvgc") as resp:
                 return await resp.read()
 
     async def handle(self, body):
