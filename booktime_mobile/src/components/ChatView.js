@@ -37,8 +37,9 @@ export default class ChatView extends React.Component {
     super(props)
     this.state = {
       messages: [],
-      shipmentStatus: "n/a"
+      shipmentStatus: "n/a",
     }
+    this.inputRef = React.createRef()
     this.handleSubmit = this.handleSubmit.bind(this)
   }
 
@@ -64,10 +65,9 @@ export default class ChatView extends React.Component {
     }
   }
 
-  handleSubmit (event) {
-    var text = event.nativeEvent.text
-    this.props.backendApi.sendMessage(text)
-    this.refs.textInput.setNativeProps({ text: '' })
+  handleSubmit () {
+    this.props.backendApi.sendMessage(this.state.value)
+    this.setState({value: ''})
   }
 
   render () {
@@ -97,7 +97,8 @@ export default class ChatView extends React.Component {
           </ScrollView>
           <TextInput
             style={styles.chatInput}
-            ref="textInput"
+            value={this.state.value}
+            onChangeText={(value) => this.setState({value})}
             placeholder="Enter a message..."
             returnKeyType="send"
             onSubmitEditing={this.handleSubmit}

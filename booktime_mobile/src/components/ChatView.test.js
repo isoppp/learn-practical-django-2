@@ -1,10 +1,13 @@
 import React from 'react'
 import ChatView from './ChatView'
+
 import renderer from 'react-test-renderer'
+
 it('renders without orders specified', () => {
   const rendered = renderer.create(<ChatView />).toJSON()
   expect(rendered).toBeTruthy()
 })
+
 it('renders with orders specified', () => {
   const backendApi = {
     openMessagesStream: jest.fn(),
@@ -25,7 +28,9 @@ it('renders with orders specified', () => {
   rendered.getInstance().setState({shipmentStatus: 'shipped'})
   backendApi.openMessagesStream.mock.calls[0][1]('initial message')
   expect(rendered.toJSON()).toMatchSnapshot()
-  rendered.root.instance.handleSubmit({ nativeEvent:{ text: 'answer back' } })
+
+  rendered.getInstance().setState({value: 'answer back'})
+  rendered.root.instance.handleSubmit()
   expect(backendApi.sendMessage.mock.calls.length).toBe(1)
   expect(backendApi.sendMessage.mock.calls[0][0]).toBe('answer back')
   expect(rendered.toJSON()).toMatchSnapshot()
