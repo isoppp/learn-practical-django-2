@@ -121,3 +121,6 @@ dmypy.json
 node_modules/
 webpack-stats.json
 main/static/bundles/
+
+# staticfiles
+staticfiles/
