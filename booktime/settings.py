@@ -11,8 +11,12 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 import os
+import environ
 
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+env = environ.Env(DEBUG=(bool, False))
+DEBUG = env("DEBUG")
+REDIS_URL = env("REDIS_URL")
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
@@ -20,14 +24,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "1b6sr=9y96rpuzzx85xnw96-90y4r9owrsq4pr$ms@s#cbc$sp"
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+SECRET_KEY = env("SECRET_KEY")
 
 # Allow when it developing only
 ALLOWED_HOSTS = ["*"]
-
 
 # Application definition
 
@@ -83,20 +83,10 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "booktime.wsgi.application"
 
-
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": "pratical-django-2",
-        "USER": "isoppp",
-        "PASSWORD": "",
-        "HOST": "127.0.0.1",
-        "PORT": "5432",
-    }
-}
+DATABASES = {"default": env.db()}
 
 # Password validation
 # https://docs.djangoproject.com/en/2.1/ref/settings/#auth-password-validators
@@ -151,6 +141,9 @@ if not DEBUG:
 else:
     EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 
+EMAIL_CONFIG = env.email_url("EMAIL_URL")
+vars().update(EMAIL_CONFIG)
+
 AUTH_USER_MODEL = "main.User"
 
 WEBPACK_LOADER = {
@@ -175,9 +168,7 @@ REST_FRAMEWORK = {
 
 # for channels
 ASGI_APPLICATION = "booktime.routing.application"
-CHANNEL_LAYERS = {
-    "default": {"BACKEND": "channels_redis.core.RedisChannelLayer", "CONFIG": {"hosts": [("127.0.0.1", 6379)]}}
-}
+CHANNEL_LAYERS = {"default": {"BACKEND": "channels_redis.core.RedisChannelLayer", "CONFIG": {"hosts": [REDIS_URL]}}}
 
 # for serving static files
 
