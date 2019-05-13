@@ -33,6 +33,7 @@ channels_redis = "<2.4.0"
 aioredis = "*"
 aiohttp = "*"
 whitenoise = "*"
+django-environ = "*"
 
 [requires]
 python_version = "3.7"
