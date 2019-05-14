@@ -1,12 +1,15 @@
 from decimal import Decimal
 from django.urls import reverse
 from django.core.files.images import ImageFile
-
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
+
+import pytest
+
 from selenium.webdriver.firefox.webdriver import WebDriver
 from main import models
 
 
+@pytest.mark.e2e
 class FrontendTests(StaticLiveServerTestCase):
     @classmethod
     def setUpClass(cls):
